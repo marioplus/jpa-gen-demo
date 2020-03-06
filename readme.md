@@ -159,15 +159,19 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 如果需要使用 lombok 和 swagger 生成配置需要加入相应的 maven 依赖
 
 1. `view -> Tool Windows -> Database`
+
 ![image.png](https://upload-images.jianshu.io/upload_images/11296261-b4e93872adcfeb46.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 2. `+ -> Data source -> MySQL`
+
 ![image.png](https://upload-images.jianshu.io/upload_images/11296261-dc1ef4b4b5a69060.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 3. 配置数据库信息
+
 ![image.png](https://upload-images.jianshu.io/upload_images/11296261-e49f746054908722.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 4. 在database视图区域任意地方右键，然后 `Scripted Extensions -> Go to Scripts Directory`
+
 ![image.png](https://upload-images.jianshu.io/upload_images/11296261-7b8993d3e9eaebff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![image.png](https://upload-images.jianshu.io/upload_images/11296261-6c234417c5566511.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
