@@ -114,14 +114,12 @@ class Gen {
                 writer -> genService(writer, config, config.service.parent, entityName, pkType, basePackage)
             }
         }
-
         // rep
         if (config.generate.repository) {
             Utils.createFile("${dir}\\repository", "${entityName}Repository.java").withWriter("utf8") {
                 writer -> genRepository(writer, config, entityName, basePackage, pkType)
             }
         }
-
         // repCustom
         if (config.generate.repositoryCustom) {
             Utils.createFile("${dir}\\repository", "${entityName}RepositoryCustom.java").withWriter("utf8") {
@@ -164,7 +162,7 @@ class Gen {
         def tableComment = Utils.getDefaultValIfCurrentValIsBlank(table.getComment(), entityName)
         writer.writeLine ""
         writer.writeLine "/**"
-        writer.writeLine " * $tableComment"
+        writer.writeLine "${Utils.docCommentConvert(tableComment, '')}"
         writer.writeLine " *"
         writer.writeLine " * @author auto generated"
         writer.writeLine " * @date ${Utils.localDateTimeStr()}"
@@ -180,7 +178,7 @@ class Gen {
             writer.writeLine "@Table(name = \"${table.name}\")"
         }
         if (config.entity.useSwagger) {
-            writer.writeLine "@ApiModel(value = \"${tableComment}\")"
+            writer.writeLine "@ApiModel(value = \"${Utils.swaggerCommentConvert(tableComment)}\")"
         }
 
         def extendsStr = parentConfig.enable ? " extends $parentConfig.name" : "",
@@ -204,7 +202,7 @@ class Gen {
         writer.writeLine ""
         def comment = Utils.getDefaultValIfCurrentValIsBlank(field.comment, field.name)
         writer.writeLine "\t/**"
-        writer.writeLine "\t * ${comment}"
+        writer.writeLine "${Utils.docCommentConvert(field.comment, "\t")}"
         writer.writeLine "\t * nullable : ${field.nullable}"
         writer.writeLine "\t * default  : ${field.default}"
         writer.writeLine "\t */"
@@ -213,7 +211,7 @@ class Gen {
             writer.writeLine "\t@Id"
         }
         if (config.entity.useSwagger) {
-            writer.writeLine "\t@ApiModelProperty(value = \"${comment}\")"
+            writer.writeLine "\t@ApiModelProperty(value = \"${Utils.swaggerCommentConvert(comment)}\")"
         }
 
         if (config.entity.jpa) {
@@ -424,6 +422,17 @@ class Utils {
             return defaultVal
         }
         return currentVal
+    }
+
+    static def docCommentConvert(comment, prefix) {
+        Arrays.stream(comment.split("\n"))
+                .map { prefix + " * " + it }
+                .reduce { s1, s2 -> s1 + "\n" + s2 }
+                .get()
+    }
+
+    static def swaggerCommentConvert(comment) {
+        comment.replaceAll("\n", "\\\\n")
     }
 }
 

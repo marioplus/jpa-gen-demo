@@ -3,7 +3,11 @@ CREATE TABLE user
     id                 BIGINT AUTO_INCREMENT COMMENT 'id'
         PRIMARY KEY,
     name               VARCHAR(20)                               NULL COMMENT '姓名',
-    age                INT                                       NULL COMMENT '年龄',
+    age                INT                                       NULL COMMENT '年龄，多行注释
+第一行注释，
+第二行注释，
+第三行注释，
+第四行注释',
     mobile             VARCHAR(11)                               NULL COMMENT '联系方式',
     sex                ENUM ('男', '女')                           NULL COMMENT '性别',
     create_date        TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP(6) NOT NULL COMMENT '创建时间',
@@ -12,7 +16,11 @@ CREATE TABLE user
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_unicode_ci COMMENT ='用户';
+    COLLATE = utf8mb4_unicode_ci COMMENT ='用户，多行注释
+第一行注释，
+第二行注释，
+第三行注释，
+第四行注释';
 
 INSERT INTO user (name, age, mobile, sex)
 VALUES ('小1', 24, '13092235311', '男'),

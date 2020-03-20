@@ -11,7 +11,7 @@ import javax.annotation.Resource;
  * User service层
  *
  * @author auto generated
- * @date 2020-01-31 01:40:59
+ * @date 2020-03-20 17:51:30
  */
 @Service
 public class UserService extends BaseService<User, Long> {
