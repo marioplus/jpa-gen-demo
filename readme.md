@@ -5,7 +5,7 @@
 
 选择的`jpagendemo`作为生成目录生成的文件结构
 
-![生成的文件结构](https://upload-images.jianshu.io/upload_images/11296261-11175be26cd76f91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](https://i.loli.net/2020/03/20/z8T3vhkUNjg4DB6.png)
 
 - entity
 ```java
@@ -160,20 +160,21 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
 
 1. `view -> Tool Windows -> Database`
 
-![image.png](https://upload-images.jianshu.io/upload_images/11296261-b4e93872adcfeb46.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](https://i.loli.net/2020/03/20/dMpmgiFcfblnhyk.png)
 
 2. `+ -> Data source -> MySQL`
 
-![image.png](https://upload-images.jianshu.io/upload_images/11296261-dc1ef4b4b5a69060.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](https://i.loli.net/2020/03/20/MiYB457HKrChWqe.png)
 
 3. 配置数据库信息
 
-![image.png](https://upload-images.jianshu.io/upload_images/11296261-e49f746054908722.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](https://i.loli.net/2020/03/20/jDUhnkPcNsRid8p.png)
 
 4. 在database视图区域任意地方右键，然后 `Scripted Extensions -> Go to Scripts Directory`
 
-![image.png](https://upload-images.jianshu.io/upload_images/11296261-7b8993d3e9eaebff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-![image.png](https://upload-images.jianshu.io/upload_images/11296261-6c234417c5566511.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](https://i.loli.net/2020/03/20/xr6mTWY4bkHVXqs.png)
+
+![image.png](https://i.loli.net/2020/03/20/AncgostTmIHXyC2.png)
 
 5. 复制下面的文件到4中跳转的文件夹`schema`中
 - jpa-auto-generate.groovy
@@ -294,14 +295,12 @@ class Gen {
                 writer -> genService(writer, config, config.service.parent, entityName, pkType, basePackage)
             }
         }
-
         // rep
         if (config.generate.repository) {
             Utils.createFile("${dir}\\repository", "${entityName}Repository.java").withWriter("utf8") {
                 writer -> genRepository(writer, config, entityName, basePackage, pkType)
             }
         }
-
         // repCustom
         if (config.generate.repositoryCustom) {
             Utils.createFile("${dir}\\repository", "${entityName}RepositoryCustom.java").withWriter("utf8") {
@@ -344,7 +343,7 @@ class Gen {
         def tableComment = Utils.getDefaultValIfCurrentValIsBlank(table.getComment(), entityName)
         writer.writeLine ""
         writer.writeLine "/**"
-        writer.writeLine " * $tableComment"
+        writer.writeLine "${Utils.docCommentConvert(tableComment, '')}"
         writer.writeLine " *"
         writer.writeLine " * @author auto generated"
         writer.writeLine " * @date ${Utils.localDateTimeStr()}"
@@ -360,7 +359,7 @@ class Gen {
             writer.writeLine "@Table(name = \"${table.name}\")"
         }
         if (config.entity.useSwagger) {
-            writer.writeLine "@ApiModel(value = \"${tableComment}\")"
+            writer.writeLine "@ApiModel(value = \"${Utils.swaggerCommentConvert(tableComment)}\")"
         }
 
         def extendsStr = parentConfig.enable ? " extends $parentConfig.name" : "",
@@ -384,7 +383,7 @@ class Gen {
         writer.writeLine ""
         def comment = Utils.getDefaultValIfCurrentValIsBlank(field.comment, field.name)
         writer.writeLine "\t/**"
-        writer.writeLine "\t * ${comment}"
+        writer.writeLine "${Utils.docCommentConvert(field.comment, "\t")}"
         writer.writeLine "\t * nullable : ${field.nullable}"
         writer.writeLine "\t * default  : ${field.default}"
         writer.writeLine "\t */"
@@ -393,7 +392,7 @@ class Gen {
             writer.writeLine "\t@Id"
         }
         if (config.entity.useSwagger) {
-            writer.writeLine "\t@ApiModelProperty(value = \"${comment}\")"
+            writer.writeLine "\t@ApiModelProperty(value = \"${Utils.swaggerCommentConvert(comment)}\")"
         }
 
         if (config.entity.jpa) {
@@ -605,6 +604,17 @@ class Utils {
         }
         return currentVal
     }
+
+    static def docCommentConvert(comment, prefix) {
+        Arrays.stream(comment.split("\n"))
+                .map { prefix + " * " + it }
+                .reduce { s1, s2 -> s1 + "\n" + s2 }
+                .get()
+    }
+
+    static def swaggerCommentConvert(comment) {
+        comment.replaceAll("\n", "\\\\n")
+    }
 }
 
 class Debug {
@@ -686,10 +696,12 @@ class Debug {
 ```
 6. 在`database`视图区域选择你想要生成的表，然后`Scripted Extensions -> jpa-auto-generate.groovy`
 可以使用`Shift`和`Ctrl`多选
-![image.png](https://upload-images.jianshu.io/upload_images/11296261-9d76f8b5f3d7f929.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![image.png](https://i.loli.net/2020/03/20/5KvZjSlY4NJV1MC.png)
 
 7. 弹出的文件选择框中，选择生成位置
-![image.png](https://upload-images.jianshu.io/upload_images/11296261-af3080c6e6498414.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![image.png](https://i.loli.net/2020/03/20/4YdNz7QkWHwv9nV.png)
 
 ### 详细配置
 
