@@ -1,3 +1,4 @@
+-- region user
 CREATE TABLE user
 (
     id                 BIGINT AUTO_INCREMENT COMMENT 'id'
@@ -32,3 +33,31 @@ VALUES ('小1', 24, '13092235311', '男'),
        ('小7', 25, '13048354758', '男'),
        ('小8', 30, '13017401179', '女'),
        ('小9', 25, '13095429605', '女');
+-- endregion user
+
+-- region org
+CREATE TABLE org
+(
+    id                 BIGINT AUTO_INCREMENT COMMENT 'id',
+    name               VARCHAR(20)                               NULL COMMENT '名称',
+    create_date        TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP(6) NOT NULL COMMENT '创建时间',
+    last_modified_date TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP(6) NOT NULL COMMENT '最后修改时间',
+    version            INT          DEFAULT 1                    NOT NULL COMMENT '版本号',
+    PRIMARY KEY (id)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_unicode_ci COMMENT ='组织'
+;
+
+INSERT INTO org (name)
+VALUES ('小组1'),
+       ('小组2'),
+       ('小组3'),
+       ('小组4'),
+       ('小组5'),
+       ('小组6'),
+       ('小组7'),
+       ('小组8'),
+       ('小组9');
+-- endregion org

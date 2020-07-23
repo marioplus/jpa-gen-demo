@@ -1,11 +1,11 @@
 package com.marioplus.jpagendemo.common;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,11 +13,11 @@ import java.util.Optional;
  * 基础 service 类
  *
  * @author mario
- * @date 2020/1/29 23:18
+ * @since 2020/1/29 23:18
  **/
 public class BaseService<T, ID> {
 
-    @Resource
+    @Autowired
     protected JpaRepository<T, ID> repository;
 
     public <S extends T> S save(S s) {

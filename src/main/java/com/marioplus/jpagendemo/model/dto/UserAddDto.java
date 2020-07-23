@@ -1,5 +1,7 @@
 package com.marioplus.jpagendemo.model.dto;
 
+import com.marioplus.jpagendemo.common.Convertible;
+import com.marioplus.jpagendemo.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,11 +14,11 @@ import javax.validation.constraints.Pattern;
  * 新增 user dto
  *
  * @author marioplus
- * @date 2020/1/31 14:05
+ * @since 2020/1/31 14:05
  **/
 @Data
 @ApiModel("用户新增dto")
-public class UserAddDto {
+public class UserAddDto implements Convertible<User> {
     /**
      * 姓名
      * nullable : true
@@ -52,4 +54,9 @@ public class UserAddDto {
     @Pattern(regexp = "[男女]")
     @ApiModelProperty(value = "性别")
     private String sex;
+
+    @Override
+    public User newEntity() {
+        return new User();
+    }
 }

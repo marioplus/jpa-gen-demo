@@ -13,7 +13,7 @@ import java.util.Date;
  * 基础实体类
  *
  * @author mario
- * @date 2020/1/29 22:49
+ * @since 2020/1/29 22:49
  **/
 @Data
 @MappedSuperclass
