@@ -17,6 +17,7 @@ public interface Convertible<E> {
     /**
      * 转换为实体
      *
+     * @param e 实体
      * @return 实体
      */
     default E convertToEntity(E e) {
