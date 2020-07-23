@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Org Repository层
  *
  * @author auto generated
- * @date 2020-07-23 20:55:20
+ * @date 2020-07-23 23:11:52
  */
 public interface OrgRepository extends JpaRepository<Org, Long>, OrgRepositoryCustom {
 

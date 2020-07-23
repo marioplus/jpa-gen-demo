@@ -4,7 +4,6 @@ import com.intellij.database.util.Case
 import com.intellij.database.util.DasUtil
 
 import javax.swing.*
-import java.awt.Dialog
 import java.lang.reflect.Method
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -56,9 +55,9 @@ typeMapping = [
         (~/(?i)bigint/)                   : "Long",
         (~/(?i)int/)                      : "Integer",
         (~/(?i)float|double|decimal|real/): "Double",
-        (~/(?i)datetime|timestamp/)       : "java.util.Date",
-        (~/(?i)date/)                     : "java.sql.Date",
-        (~/(?i)time/)                     : "java.sql.Time",
+        (~/(?i)datetime|timestamp/)       : "java.time.LocalDateTime",
+        (~/(?i)date/)                     : "java.time.LocalDate",
+        (~/(?i)time/)                     : "java.time.LocalTime",
         (~/(?i)/)                         : "String"
 ]
 
@@ -66,11 +65,10 @@ typeMapping = [
 FILES.chooseDirectoryAndSave("\u9009\u62e9\u6587\u4ef6\u5939", "\u9009\u62e9\u6587\u4ef6\u751f\u6210\u4f4d\u7f6e") { dir ->
     SELECTION.filter {
         it instanceof DasTable && it.getKind() == ObjectKind.TABLE
+    }.each { table ->
+        def fields = calcFields(table)
+        Gen.main(config, table, fields, dir.toString())
     }
-            .each { table ->
-                def fields = calcFields(table)
-                Gen.main(config, table, fields, dir.toString())
-            }
 }
 
 // 转换类型
@@ -165,7 +163,7 @@ class Gen {
         writer.writeLine "${Utils.docCommentConvert(tableComment, '')}"
         writer.writeLine " *"
         writer.writeLine " * @author auto generated"
-        writer.writeLine " * @date ${Utils.localDateTimeStr()}"
+        writer.writeLine " * @since ${Utils.localDateTimeStr()}"
         writer.writeLine " */"
         if (config.entity.useLombok) {
             if (parentConfig.enable) {
@@ -195,6 +193,7 @@ class Gen {
             fieldList.each() { field -> genEntityGetAndSetMethod(writer, field) }
         }
         writer.writeLine "}"
+
     }
 
     // 实体属性
@@ -222,6 +221,7 @@ class Gen {
             writer.writeLine "\t@Column(name = \"${field.column}\", nullable = ${!field.isNotNull}$lenStr)"
         }
         writer.writeLine "\tprivate ${field.type} ${field.name};"
+
     }
 
     // 生成get、get方法
@@ -425,7 +425,10 @@ class Utils {
     }
 
     static def docCommentConvert(comment, prefix) {
-        Arrays.stream(comment.split("\n"))
+        if (!comment.toString().contains("\n")) {
+            return prefix + comment
+        }
+        return Arrays.stream(comment.split("\n"))
                 .map { prefix + " * " + it }
                 .reduce { s1, s2 -> s1 + "\n" + s2 }
                 .get()

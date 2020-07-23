@@ -39,10 +39,13 @@ VALUES ('小1', 24, '13092235311', '男'),
 CREATE TABLE org
 (
     id                 BIGINT AUTO_INCREMENT COMMENT 'id',
-    name               VARCHAR(20)                               NULL COMMENT '名称',
-    create_date        TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP(6) NOT NULL COMMENT '创建时间',
-    last_modified_date TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP(6) NOT NULL COMMENT '最后修改时间',
-    version            INT          DEFAULT 1                    NOT NULL COMMENT '版本号',
+    name               VARCHAR(20)                                       NULL COMMENT '名称',
+    create_date        TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP(6)         NOT NULL COMMENT '创建时间',
+    last_modified_date TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP(6)         NOT NULL COMMENT '最后修改时间',
+    version            INT          DEFAULT 1                            NOT NULL COMMENT '版本号',
+    test_date_time     TIMESTAMP(6) DEFAULT '2020-07-23 11:11:11.111111' NULL,
+    test_date          DATE         DEFAULT '2020-07-23'                 NULL,
+    test_time          TIME(6)      DEFAULT '11:11:11.111111'            NULL,
     PRIMARY KEY (id)
 )
     ENGINE = InnoDB

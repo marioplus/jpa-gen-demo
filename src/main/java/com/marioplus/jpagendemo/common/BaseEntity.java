@@ -7,7 +7,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 基础实体类
@@ -29,12 +29,12 @@ public class BaseEntity {
     @CreatedDate
     @Column(name = "create_date", nullable = false)
     @ApiModelProperty("创建时间")
-    protected Date createDate;
+    protected LocalDateTime createDate;
 
     @LastModifiedDate
     @Column(name = "last_modified_date")
     @ApiModelProperty("最后修改时间")
-    protected Date lastModifiedDate;
+    protected LocalDateTime lastModifiedDate;
 
     @Version
     @Column(name = "version", nullable = false)
